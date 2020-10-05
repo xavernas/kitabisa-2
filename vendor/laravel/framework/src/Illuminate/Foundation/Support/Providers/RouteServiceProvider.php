@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string|null
      */
-    protected $namespace;
+    protected $namespace = 'App\Http\Controllers';
 
     /**
      * The callback that should be used to load the application's routes.
@@ -59,7 +59,15 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Route::middleware('web')
+        ->middleware('api')
+        ->namespace('App\Http\Controllers') // <---------
+        ->group(base_path('routes/api.php'));
+
+        Route::prefix('api')
+        ->middleware('api')
+        ->namespace('App\Http\Controllers') // <---------
+        ->group(base_path('routes/api.php'));
     }
 
     /**
